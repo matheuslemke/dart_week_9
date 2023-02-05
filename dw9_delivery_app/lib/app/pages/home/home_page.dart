@@ -1,12 +1,10 @@
 import 'package:dw9_delivery_app/app/core/ui/helpers/messages.dart';
 import 'package:dw9_delivery_app/app/core/ui/widgets/delivery_appbar.dart';
-import 'package:dw9_delivery_app/app/models/product_model.dart';
 import 'package:dw9_delivery_app/app/pages/home/home_controller.dart';
 import 'package:dw9_delivery_app/app/pages/home/home_state.dart';
 import 'package:dw9_delivery_app/app/pages/home/widgets/delivery_product_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../core/ui/helpers/loader.dart';
 
@@ -32,7 +30,12 @@ class _HomePageState extends State<HomePage> with Loader, Messages {
       appBar: DeliveryAppbar(),
       body: Scaffold(
         body: BlocConsumer<HomeController, HomeState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            state.status.matchAny(
+              any: () => hideLoader(),
+              loading: () => showLoader(),
+            );
+          },
           builder: (context, state) {
             return Column(
               children: [
